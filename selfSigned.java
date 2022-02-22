@@ -21,6 +21,9 @@ import java.text.DateFormat;
 public class selfSigned
 {
 
+	/*
+	 *  Default values
+	 */
 	static int keySize = 2048;
 	static String keyType = "RSA";
 	static String sigAlg = "SHA256withRSA"; 
@@ -37,6 +40,9 @@ public class selfSigned
 	String keyStorePassword ="123456"; 
 	
 	
+	/*
+	 *  Process input 
+	 */
 	static void processInput(String[] args) {
 
 		if (args.length == 0) {
@@ -60,6 +66,9 @@ public class selfSigned
 		} 	
 	}
 	
+	/*
+	 *  Process all options
+	 */
 	static void processOptions(String option, String value) {
 		if (option.equalsIgnoreCase(KEY_SIZE)) {
 			processKeySize(value); 
@@ -93,6 +102,9 @@ public class selfSigned
 		}
 	}
 	
+	/*
+	 * Process each option
+	 */
 	static void processKeySize(String value) {
 		keySize = Integer.valueOf(value).intValue(); 
 	}
@@ -161,9 +173,9 @@ public class selfSigned
 		return option; 
 	}
 	
-	
-	
-	
+	/*
+	 * Main 
+	 */
 	public static void main(String[] args)
 	{
 		processInput(args); 
@@ -188,9 +200,9 @@ public class selfSigned
 		try {
 			Date deltaDate = new Date();
 			deltaDate.setTime(deltaDate.getTime() - (1 * 24 * 60 * 60 * 1000L));
-			
-			
-			
+
+			System.out.println("Creating a chained certificate using Root Certificate"); 
+			//Create a chained certificate 
 			PkSsCertificate SsCert = PkSsCertFactory.newSsCert(
 					2048,                                  //int keysize
 					"RSA",                                 //String keytype
@@ -206,6 +218,7 @@ public class selfSigned
 					null,                                  //KeyPair keyPair
 					true);                                 //boolean isCA 
 
+			System.out.println("Root Certificate contents"); 
 			X509Certificate rootCert = SsCert.getCertificate();
                         X509Certificate[] rootChain = new X509Certificate[1];
                         rootChain[0] = rootCert;
